@@ -16,7 +16,11 @@ function showPicked(input) {
 
 function analyze() {
   var uploadFiles = el("file-input").files;
-  if (uploadFiles.length !== 1) alert("Please select a file to analyze!");
+  
+  if (uploadFiles.length !== 1) {
+    alert("Please select a file to analyze!");
+    return;
+  }
 
   el("analyze-button").innerHTML = "Analyzing...";
   var xhr = new XMLHttpRequest();
@@ -28,14 +32,90 @@ function analyze() {
   };
   xhr.onload = function(e) {
     if (this.readyState === 4) {
-      var response = JSON.parse(e.target.responseText);
-      el("result-label").innerHTML = `Result = ${response["result"]}`;
+      buildResponse(JSON.parse(e.target.responseText));
     }
     el("analyze-button").innerHTML = "Analyze";
   };
 
   var fileData = new FormData();
-  fileData.append("file", uploadFiles[0]);
+  fileData.push("file", uploadFiles[0]);
   xhr.send(fileData);
 }
 
+function buildResponse(response) {
+  const rows = document.createDocumentFragment();
+  
+  response.forEach(rowData => {
+    const row = document.createElement('div'); row.classList.add('row');
+    
+    rowData.forEach(({url, json, meta}) => {
+      const column = document.createElement('div'); column.classList.add('col');
+      
+      if (url) {
+        const img = document.createElement('img'); img.src = url;
+        column.appendChild(img);
+      }
+      
+      if (json) {
+        const formatter = new JSONFormatter(json);
+        column.appendChild(formatter.render());
+      }
+      
+      if (meta) {
+        const p = document.createElement('p');
+        p.innerText = meta;
+        column.appendChild(p);
+      }
+      
+      row.appendChild(column);
+    });
+    
+    rows.appendChild(row);
+  });
+  
+  el("response").appendChild(rows);
+}
+
+// EXAMPLE - remove after implementation
+window.addEventListener('load', function() {
+  buildResponse([
+    [
+        {
+            url: 'https://cdn4.buysellads.net/uu/7/53660/1572641638-MC_CSSTricks_logo_600x600.png',
+            json: null,
+            meta: 'lorem ipsum dolor',
+        },
+        {
+            url: 'https://cdn4.buysellads.net/uu/7/53660/1572641638-MC_CSSTricks_logo_600x600.png',
+            json: null,
+            meta: 'lorem ipsum dolor',
+        },
+    ],
+    [
+      {
+          url: 'https://cdn4.buysellads.net/uu/7/53660/1572641638-MC_CSSTricks_logo_600x600.png',
+          json: null,
+          meta: 'lorem ipsum dolor',
+      },
+      {
+        url: null,
+        json: {
+            "id": 1001,
+            "type": "donut",
+            "name": "Cake",
+            "price": 2.55,
+            "available": true,
+            "topping": [
+              { "id": 5001, "type": "None" },
+              { "id": 5002, "type": "Glazed" },
+              { "id": 5005, "type": "Sugar" },
+              { "id": 5006, "type": "Powdered Sugar" },
+              { "id": 5003, "type": "Chocolate" },
+              { "id": 5004, "type": "Maple" }
+            ]
+          },
+        meta: null,
+      },
+    ],
+  ]);
+});

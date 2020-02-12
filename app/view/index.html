@@ -2,6 +2,8 @@
 <head>
   <meta charset='utf-8'>
   <link rel='stylesheet' href='../static/style.css'>
+  <link rel='stylesheet' href='../static/js-formatter-js/json-formatter.css'>
+  <script src='../static/js-formatter-js/json-formatter.umd.js'></script>
   <script src='../static/client.js'></script>
 </head>
 <body>
@@ -31,9 +33,7 @@
       <div class='analyze'>
         <button id='analyze-button' class='analyze-button' type='button' onclick='analyze()'>Analyze</button>
       </div>
-      <div class='result-label'>
-        <label id='result-label'></label>
-      </div>
+      <div id='response' class='response-container'></div>
     </div>
   </div>
 </div>

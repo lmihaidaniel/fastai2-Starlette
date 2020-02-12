@@ -1,0 +1,22 @@
+{
+  "name": "fastai2-starlette",
+  "version": "1.0.0",
+  "description": "This repo can be used as a starting point to deploy [fast.ai](https://github.com/fastai/fastai) models with Starlette.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lmihaidaniel/fastai2-Starlette.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lmihaidaniel/fastai2-Starlette/issues"
+  },
+  "homepage": "https://github.com/lmihaidaniel/fastai2-Starlette#readme",
+  "dependencies": {
+    "json-formatter-js": "^2.3.3"
+  }
+}
